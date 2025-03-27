@@ -20,5 +20,5 @@ pyzmq==25.1.2
 redis==5.0.6
 
 # Mobile base
-phoenix6==24.3.0
+phoenix6
 pygame==2.5.2
