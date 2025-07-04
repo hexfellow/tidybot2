@@ -14,9 +14,19 @@ from base_controller import Vehicle
 from constants import BASE_RPC_HOST, BASE_RPC_PORT, RPC_AUTHKEY
 
 class Base:
-    def __init__(self, max_vel=(0.5, 0.5, 1.57), max_accel=(0.25, 0.25, 0.79)):
+    def __init__(
+        self,
+        max_vel=(0.5, 0.5, 1.57),
+        max_accel=(0.25, 0.25, 0.79),
+        ws_url="ws://127.0.0.1:8439",
+        control_hz=100,
+        control_mode="speed"
+    ):
         self.max_vel = max_vel
         self.max_accel = max_accel
+        self.ws_url = ws_url
+        self.control_hz = control_hz
+        self.control_mode = control_mode
         self.vehicle = None
 
     def reset(self):
@@ -26,7 +36,13 @@ class Base:
                 self.vehicle.stop_control()
 
         # Create new instance of vehicle
-        self.vehicle = Vehicle(max_vel=self.max_vel, max_accel=self.max_accel)
+        self.vehicle = Vehicle(
+            max_vel=self.max_vel,
+            max_accel=self.max_accel,
+            ws_url=self.ws_url,
+            control_hz=self.control_hz,
+            control_mode=self.control_mode
+        )
 
         # Start low-level control
         self.vehicle.start_control()

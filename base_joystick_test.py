@@ -17,12 +17,10 @@ from ruckig import InputParameter, OutputParameter, Result, Ruckig, ControlInter
 from threadpoolctl import threadpool_limits
 
 from hex_vehicle import PublicAPI as VehicleAPI
+from constants import h_x, h_y
+from constants import POLICY_CONTROL_PERIOD
 from utils import create_pid_file
 
-
-POLICY_CONTROL_FREQ = 10
-POLICY_CONTROL_PERIOD = 1.0 / POLICY_CONTROL_FREQ
-h_x, h_y = 0.18 * np.array([1.0, 1.0, -1.0, -1.0]), 0.16 * np.array([-1.0, 1.0, 1.0, -1.0])
 
 # Vehicle
 CONTROL_FREQ = 200
@@ -313,7 +311,7 @@ class Vehicle:
     def set_target_velocity(self, velocity: Any, frame: str = "local") -> None:
         self._enqueue_command(CommandType.VELOCITY, velocity, frame)
 
-    def set_target_velocity_(self, position: Any) -> None:
+    def set_target_position(self, position: Any) -> None:
         self._enqueue_command(CommandType.POSITION, position)
 
 
@@ -337,7 +335,6 @@ class Vehicle:
 if __name__ == "__main__":
     
     try:
-        import time
         import pygame
 
         vehicle = Vehicle(
