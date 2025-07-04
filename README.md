@@ -1,4 +1,12 @@
-# tidybot2
+# tidybot2-hexfellow
+
+This repository is adapted to the hexfellow version of tidybot2. To run it, please install the following two dependencies, as described in their respective README files.
+
+1. [**hex_vehicle_python_lib**](https://gitlab.hexfellow.com/Jecjune/hex_vehicle_python_lib.git)  
+
+2. [**hex_utils**](https://github.com/hexfellow/hex_utils.git)
+
+---
 
 This code release accompanies the following project:
 
