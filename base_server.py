@@ -64,7 +64,13 @@ class Base:
 class BaseManager(MPBaseManager):
     pass
 
-BaseManager.register('Base', Base)
+BaseManager.register('Base', Base(
+        max_vel=(0.5, 0.5, 1.57),
+        max_accel=(0.25, 0.25, 0.79),
+        ws_url="ws://172.18.23.92:8439",
+        control_hz=100,
+        control_mode="speed"
+    ))
 
 if __name__ == '__main__':
     manager = BaseManager(address=(BASE_RPC_HOST, BASE_RPC_PORT), authkey=RPC_AUTHKEY)
