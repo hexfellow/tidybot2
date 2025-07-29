@@ -1,10 +1,38 @@
-# tidybot2-hexfellow
+# TidyBot2‑Compatible Control Interface for MaverX4
 
-This repository is adapted to the hexfellow version of tidybot2. To run it, please install the following two dependencies, as described in their respective README files.
+This repository adapts the [**Tidybot2**](https://github.com/jimmyyhwu/tidybot2) codebase to support the **MaverX4** platform, enabling it to use the same base interface and control logic originally designed for [**Tidybot2**](https://github.com/jimmyyhwu/tidybot2).
 
-1. [**hex_vehicle_python_lib**](https://gitlab.hexfellow.com/Jecjune/hex_vehicle_python_lib.git)  
+## 🚀 Contents
 
-2. [**hex_utils**](https://github.com/hexfellow/hex_utils.git)
+* **`hex_base_controller.py`** and **`hex_base_server.py`**
+  Provide the same API as [**Tidybot2**](https://github.com/jimmyyhwu/tidybot2)’s base module, allowing you to treat **MaverX4** exactly like a [**Tidybot2**](https://github.com/jimmyyhwu/tidybot2) base.
+
+* **`hex_base_joy_ctrl.py`**
+  A handy joystick-based teleoperation tool for real‑time testing of the mobile base.
+
+## 🧩 Installation & Dependencies
+
+To enable communication with the **MaverX4** base, install the required dependency:
+
+1. [**hex_vehicle_python_lib**](https://gitlab.hexfellow.com/Jecjune/hex_vehicle_python_lib.git)
+
+   ```bash
+   git clone https://gitlab.hexfellow.com/Jecjune/hex_vehicle_python_lib.git
+   cd hex_vehicle_python_lib
+   git submodule update --init
+   python3 -m pip install .
+   ```
+
+   This library provides the low-level interface for **MaverX4** control.
+
+## 📝 Contact & Support
+
+If you have any questions or feedback, feel free to reach out:
+
+* [IBN\_Blank](https://github.com/IBNBlank)
+* [Jecjune](https://github.com/Jecjune)
+
+For business or enterprise inquiries, contact **Haoxing Guo** at [haoxing.guo@hexfellow.com](mailto:haoxing.guo@hexfellow.com).
 
 ---
 
