@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 ################################################################
-# Copyright 2025 Jecjune. All rights reserved.
-# Author: Jecjune jecjune@qq.com
-# Date  : 2025-7-29
+# Copyright 2025 Dong Zhaorui. All rights reserved.
+# Author: Dong Zhaorui 847235539@qq.com
+# Date  : 2025-07-30
 ################################################################
 
 import os
@@ -21,6 +21,7 @@ from hex_vehicle import PublicAPI as HexVehicleAPI
 from ruckig import InputParameter, OutputParameter, Result, Ruckig, ControlInterface
 from threadpoolctl import threadpool_limits
 from constants import h_x, h_y
+from constants import HEX_BASE_URL, HEX_MOTOR_MAP
 from constants import POLICY_CONTROL_PERIOD
 from utils import create_pid_file
 
@@ -41,33 +42,14 @@ N_r1_r2_w = N_r1 * N_r2 * N_w
 N_s_r2_w = N_s * N_r2 * N_w
 TWO_PI = 2 * math.pi
 
-# Motor
-MOTOR_MAP = np.array(
-    [
-        (0, 7, -1),
-        (1, 6, +1),
-        (2, 1, -1),
-        (3, 0, +1),
-        (4, 3, -1),
-        (5, 2, +1),
-        (6, 5, -1),
-        (7, 4, +1),
-    ],
-    dtype=[
-        ('tidy_idx', 'i4'),
-        ('motor_idx', 'i4'),
-        ('reverse_factor', 'i4'),
-    ],
-)
-
 class HexMotorInterface:
 
     def __init__(
         self,
-        ws_url="ws://127.0.0.1:8439",
+        ws_url=HEX_BASE_URL,
         control_hz=CONTROL_FREQ,
         control_mode="speed",
-        motor_map=MOTOR_MAP,
+        motor_map=HEX_MOTOR_MAP,
     ):
         self.vehicle_api = HexVehicleAPI(
             ws_url=ws_url,
@@ -119,10 +101,10 @@ class Vehicle:
         self,
         max_vel=(0.5, 0.5, 1.57),
         max_accel=(0.25, 0.25, 0.79),
-        ws_url="ws://127.0.0.1:8439",
+        ws_url=HEX_BASE_URL,
         control_hz=CONTROL_FREQ,
         control_mode="speed",
-        motor_map=MOTOR_MAP,
+        motor_map=HEX_MOTOR_MAP,
     ):
         self.max_vel = np.array(max_vel)
         self.max_accel = np.array(max_accel)

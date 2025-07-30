@@ -11,6 +11,26 @@ h_x, h_y = 0.180000 * np.array([1.0, 1.0, -1.0, -1.0]), 0.160000 * np.array([-1.
 # Encoder magnet offsets
 ENCODER_MAGNET_OFFSETS = [0.0 / 4096, 0.0 / 4096, 0.0 / 4096, 0.0 / 4096]  # TODO
 
+# Hexfellow Base
+HEX_BASE_URL = 'ws://172.18.23.92:8439'
+HEX_MOTOR_MAP = np.array(
+    [
+        (0, 7, -1),
+        (1, 6, +1),
+        (2, 1, -1),
+        (3, 0, +1),
+        (4, 3, -1),
+        (5, 2, +1),
+        (6, 5, -1),
+        (7, 4, +1),
+    ],
+    dtype=[
+        ('tidy_idx', 'i4'),
+        ('motor_idx', 'i4'),
+        ('reverse_factor', 'i4'),
+    ],
+)
+
 ################################################################################
 # Teleop and imitation learning
 

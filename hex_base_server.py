@@ -1,32 +1,20 @@
-# Author: Jimmy Wu
-# Date: October 2024
-#
-# This RPC server allows other processes to communicate with the mobile base
-# low-level controller, which runs in its own, dedicated real-time process.
-#
-# Note: Operations that are not time-sensitive should be run in a separate,
-# non-real-time process to avoid interfering with the low-level control and
-# causing latency spikes.
+#!/usr/bin/env python3
+# -*- coding:utf-8 -*-
+################################################################
+# Copyright 2025 Dong Zhaorui. All rights reserved.
+# Author: Dong Zhaorui 847235539@qq.com
+# Date  : 2025-07-30
+################################################################
 
 import time
 from multiprocessing.managers import BaseManager as MPBaseManager
-from base_controller import Vehicle
+from hex_base_controller import Vehicle
 from constants import BASE_RPC_HOST, BASE_RPC_PORT, RPC_AUTHKEY
 
 class Base:
-    def __init__(
-        self,
-        max_vel=(0.5, 0.5, 1.57),
-        max_accel=(0.25, 0.25, 0.79),
-        ws_url="ws://127.0.0.1:8439",
-        control_hz=100,
-        control_mode="speed"
-    ):
+    def __init__(self, max_vel=(0.5, 0.5, 1.57), max_accel=(0.25, 0.25, 0.79)):
         self.max_vel = max_vel
         self.max_accel = max_accel
-        self.ws_url = ws_url
-        self.control_hz = control_hz
-        self.control_mode = control_mode
         self.vehicle = None
 
     def reset(self):
@@ -36,13 +24,7 @@ class Base:
                 self.vehicle.stop_control()
 
         # Create new instance of vehicle
-        self.vehicle = Vehicle(
-            max_vel=self.max_vel,
-            max_accel=self.max_accel,
-            ws_url=self.ws_url,
-            control_hz=self.control_hz,
-            control_mode=self.control_mode
-        )
+        self.vehicle = Vehicle(max_vel=self.max_vel, max_accel=self.max_accel)
 
         # Start low-level control
         self.vehicle.start_control()
@@ -64,13 +46,7 @@ class Base:
 class BaseManager(MPBaseManager):
     pass
 
-BaseManager.register('Base', Base(
-        max_vel=(0.5, 0.5, 1.57),
-        max_accel=(0.25, 0.25, 0.79),
-        ws_url="ws://172.18.23.92:8439",
-        control_hz=100,
-        control_mode="speed"
-    ))
+BaseManager.register('Base', Base)
 
 if __name__ == '__main__':
     manager = BaseManager(address=(BASE_RPC_HOST, BASE_RPC_PORT), authkey=RPC_AUTHKEY)
