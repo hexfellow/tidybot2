@@ -36,6 +36,8 @@ For business or enterprise inquiries, contact **Haoxing Guo** at [haoxing.guo@he
 
 ---
 
+# tidybot2
+
 This code release accompanies the following project:
 
 ### TidyBot++: An Open-Source Holonomic Mobile Manipulator for Robot Learning
