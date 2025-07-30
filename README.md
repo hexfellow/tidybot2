@@ -25,15 +25,19 @@ To enable communication with the **MaverX4** base, install the required dependen
 
    This library provides the low-level interface for **MaverX4** control.
 
+## ⚙️ Configuration
+
+Before running the code, make sure to update the `HEX_BASE_URL` in **`constants.py`** to match the IP address of your **MaverX4** base.
+
 ## 📝 Contact & Support
 
 If you have any questions or feedback, feel free to reach out:
 
-* [**IBN\_Blank**](https://github.com/IBNBlank) : [joray.dong@hexfellow.com](mailto:joray.dong@hexfellow.com)
-* [**Jecjune**](https://github.com/Jecjune) : [zejun.chen@hexfellow.com](mailto:zejun.chen@hexfellow.com)
+* [**IBN\_Blank**](https://github.com/IBNBlank) -- [joray.dong@hexfellow.com](mailto:joray.dong@hexfellow.com)
+* [**Jecjune**](https://github.com/Jecjune) -- [zejun.chen@hexfellow.com](mailto:zejun.chen@hexfellow.com)
 * [**aalicecc**](https://github.com/aalicecc)
 
-For business or enterprise inquiries, contact **Haoxing Guo** at [haoxing.guo@hexfellow.com](mailto:haoxing.guo@hexfellow.com).
+For business or partnership inquiries, please contact **Haoxing Guo** at [haoxing.guo@hexfellow.com](mailto:haoxing.guo@hexfellow.com).
 
 ---
 

@@ -12,7 +12,7 @@ h_x, h_y = 0.180000 * np.array([1.0, 1.0, -1.0, -1.0]), 0.160000 * np.array([-1.
 ENCODER_MAGNET_OFFSETS = [0.0 / 4096, 0.0 / 4096, 0.0 / 4096, 0.0 / 4096]  # TODO
 
 # Hexfellow Base
-HEX_BASE_URL = 'ws://192.168.1.101:8439'
+HEX_BASE_URL = 'ws://192.168.177.1:8439'
 HEX_MOTOR_MAP = np.array(
     [
         (0, 7, -1),
