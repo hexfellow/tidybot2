@@ -13,7 +13,7 @@ from hex_base_controller import Vehicle
 
 if __name__ == "__main__":
     vehicle = Vehicle(
-        max_vel=(0.4, 0.4, 1.0),
+        max_vel=(0.5, 0.5, 1.0),
         max_accel=(1.0, 1.0, 1.0),
     )
     vehicle.start_control()

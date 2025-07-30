@@ -33,7 +33,7 @@ NUM_CASTERS = 4
 # Caster
 b_x = 0.020                    # Caster offset (m)
 b_y = 0.0                      # Lateral caster offset (m)
-r = 0.06135                    # Wheel radius (m)
+r = 0.055                      # Wheel radius (m)
 N_s = 1.0                      # Steer gear ratio
 N_r1 = 1.0                     # Drive gear ratio (1st stage)
 N_r2 = 1.0                     # Drive gear ratio (2nd stage)
@@ -63,28 +63,29 @@ class HexMotorInterface:
         motor_positions = np.array(self.__vehicle.get_motor_position())
         motor_positions *= self.__motor_map['reverse_factor']
         tidy_positions = np.zeros_like(motor_positions)
-        tidy_positions[self.__motor_map['tidy_idx']] = motor_positions[self.__motor_map['motor_idx']]
+        tidy_positions[self.__motor_map['tidy_idx']] = motor_positions[
+            self.__motor_map['motor_idx']]
         return tidy_positions
 
     def get_velocities(self):
-        motor_velocities = np.array(self.__vehicle.get_vehicle_speed())
+        motor_velocities = np.array(self.__vehicle.get_motor_velocity())
         motor_velocities *= self.__motor_map['reverse_factor']
         tidy_velocities = np.zeros_like(motor_velocities)
-        tidy_velocities[self.__motor_map['tidy_idx']] = motor_velocities[self.__motor_map['motor_idx']]
+        tidy_velocities[self.__motor_map['tidy_idx']] = motor_velocities[
+            self.__motor_map['motor_idx']]
         return tidy_velocities
-    
+
     def set_velocities(self, tidy_velocities: np.ndarray):
-        motor_enable_list = self.__vehicle.is_motor_control_enabled()
-        for i, enable_flag in enumerate(motor_enable_list):
-            if not enable_flag:
-                self.__vehicle.enable_motor_control(i)
+        self.__vehicle.enable()
         motor_velocities = np.zeros_like(tidy_velocities)
+        motor_velocities[self.__motor_map['motor_idx']] = tidy_velocities[
+            self.__motor_map['tidy_idx']]
         motor_velocities *= self.__motor_map['reverse_factor']
-        motor_velocities[self.__motor_map['motor_idx']] = tidy_velocities[self.__motor_map['tidy_idx']]
         self.__vehicle.set_motor_velocity(motor_velocities.tolist())
 
     def set_neutral(self):
-        self.__vehicle.disable_motor_control()
+        self.__vehicle.disable()
+
 
 class CommandType(Enum):
     POSITION = 'position'
@@ -372,8 +373,8 @@ if __name__ == '__main__':
     vehicle.start_control()
     try:
         for _ in range(50):
-            vehicle.set_target_velocity(np.array([0.0, 0.0, 0.39]))
-            # vehicle.set_target_velocity(np.array([0.25, 0.0, 0.0]))
+            # vehicle.set_target_velocity(np.array([0.0, 0.0, 0.39]))
+            vehicle.set_target_velocity(np.array([0.25, 0.0, 0.0]))
             # vehicle.set_target_position(np.array([0.5, 0.0, 0.0]))
             print(f'Vehicle - x: {vehicle.x} dx: {vehicle.dx}')
             time.sleep(POLICY_CONTROL_PERIOD)  # Note: Not precise

@@ -14,10 +14,10 @@ This repository adapts the [**Tidybot2**](https://github.com/jimmyyhwu/tidybot2)
 
 To enable communication with the **MaverX4** base, install the required dependency:
 
-1. [**hex_vehicle_python_lib**](https://gitlab.hexfellow.com/Jecjune/hex_vehicle_python_lib.git)
+1. [**hex_vehicle_python_lib**](https://github.com/hexfellow/hex_vehicle_python_lib.git)
 
    ```bash
-   git clone https://gitlab.hexfellow.com/Jecjune/hex_vehicle_python_lib.git
+   git clone https://github.com/hexfellow/hex_vehicle_python_lib.git
    cd hex_vehicle_python_lib
    git submodule update --init
    python3 -m pip install .
@@ -29,8 +29,9 @@ To enable communication with the **MaverX4** base, install the required dependen
 
 If you have any questions or feedback, feel free to reach out:
 
-* [IBN\_Blank](https://github.com/IBNBlank)
-* [Jecjune](https://github.com/Jecjune)
+* [**IBN\_Blank**](https://github.com/IBNBlank) : [joray.dong@hexfellow.com](mailto:joray.dong@hexfellow.com)
+* [**Jecjune**](https://github.com/Jecjune) : [zejun.chen@hexfellow.com](mailto:zejun.chen@hexfellow.com)
+* [**aalicecc**](https://github.com/aalicecc)
 
 For business or enterprise inquiries, contact **Haoxing Guo** at [haoxing.guo@hexfellow.com](mailto:haoxing.guo@hexfellow.com).
 
