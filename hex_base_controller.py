@@ -20,7 +20,7 @@ import numpy as np
 from hex_vehicle import PublicAPI as HexVehicleAPI
 from ruckig import InputParameter, OutputParameter, Result, Ruckig, ControlInterface
 from threadpoolctl import threadpool_limits
-from constants import h_x, h_y
+from constants import h_x, h_y, ENCODER_MAGNET_OFFSETS
 from constants import HEX_BASE_URL, HEX_MOTOR_MAP
 from constants import POLICY_CONTROL_PERIOD
 from utils import create_pid_file
@@ -33,7 +33,7 @@ NUM_CASTERS = 4
 # Caster
 b_x = 0.020                    # Caster offset (m)
 b_y = 0.0                      # Lateral caster offset (m)
-r = 0.055                      # Wheel radius (m)
+r = 0.056                      # Wheel radius (m)
 N_s = 1.0                      # Steer gear ratio
 N_r1 = 1.0                     # Drive gear ratio (1st stage)
 N_r2 = 1.0                     # Drive gear ratio (2nd stage)
@@ -50,14 +50,17 @@ class HexMotorInterface:
         control_hz=CONTROL_FREQ,
         control_mode="speed",
         motor_map=HEX_MOTOR_MAP,
+        encoder_offsets=ENCODER_MAGNET_OFFSETS,
     ):
-        self.vehicle_api = HexVehicleAPI(
+        self.__vehicle_api = HexVehicleAPI(
             ws_url=ws_url,
             control_hz=control_hz,
             control_mode=control_mode,
         )
-        self.__vehicle = self.vehicle_api.vehicle
+        self.__vehicle = self.__vehicle_api.vehicle
         self.__motor_map = motor_map
+        self.__encoder_offsets = np.zeros(8)
+        self.__encoder_offsets[::2] = np.array(encoder_offsets)
 
     def get_positions(self):
         motor_positions = np.array(self.__vehicle.get_motor_position())
@@ -65,6 +68,7 @@ class HexMotorInterface:
         tidy_positions = np.zeros_like(motor_positions)
         tidy_positions[self.__motor_map['tidy_idx']] = motor_positions[
             self.__motor_map['motor_idx']]
+        tidy_positions += self.__encoder_offsets
         return tidy_positions
 
     def get_velocities(self):

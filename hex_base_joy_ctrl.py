@@ -11,13 +11,23 @@ import pygame
 import numpy as np
 from hex_base_controller import Vehicle
 
-if __name__ == "__main__":
-    vehicle = Vehicle(
-        max_vel=(0.5, 0.5, 1.0),
-        max_accel=(1.0, 1.0, 1.0),
-    )
-    vehicle.start_control()
+SAVE_TRAJ = True
+TAU = 2 * np.pi
+FILE_NAME = "odom_tum.txt"
 
+
+def write_tum(f, ts, state):
+    x, y, yaw = state
+    half_yaw = 0.5 * ((yaw + np.pi) % TAU - np.pi)
+    qw = np.cos(half_yaw)
+    qz = np.sin(half_yaw)
+    f.write(
+        f"{ts:.6f} {x:.6f} {y:.6f} 0.000000 0.000000 0.000000 {qz:.6f} {qw:.6f}\n"
+    )
+
+
+if __name__ == "__main__":
+    # Initialize pygame
     pygame.init()
     pygame.joystick.init()
 
@@ -35,6 +45,16 @@ if __name__ == "__main__":
     print(f"Number of Axes: {joystick.get_numaxes()}")
     print(f"Number of Buttons: {joystick.get_numbuttons()}")
 
+    # Initialize the trajectory file
+    if SAVE_TRAJ:
+        traj_file = open(FILE_NAME, "w")
+
+    # Initialize the vehicle
+    vehicle = Vehicle(
+        max_vel=(0.5, 0.5, 1.0),
+        max_accel=(1.0, 1.0, 1.0),
+    )
+    vehicle.start_control()
     try:
         # Main loop to read joystick inputs
         # cmd_vel: [vel_x, vel_y, omega]
@@ -57,9 +77,15 @@ if __name__ == "__main__":
                 f"cmd_vel: ({cmd_vel[0]:.2f}, {cmd_vel[1]:.2f}, {cmd_vel[2]:.2f})"
             )
             vehicle.set_target_velocity(cmd_vel, frame="local")
+            
+            if SAVE_TRAJ:
+                write_tum(traj_file, time.time(), vehicle.x)
 
             time.sleep(0.01)
 
     except KeyboardInterrupt:
         print("Exiting...")
         vehicle.stop_control()
+
+        if SAVE_TRAJ:
+            traj_file.close()
