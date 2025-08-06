@@ -33,7 +33,7 @@ NUM_CASTERS = 4
 # Caster
 b_x = 0.020                    # Caster offset (m)
 b_y = 0.0                      # Lateral caster offset (m)
-r = 0.056                      # Wheel radius (m)
+r = 0.0557                     # Wheel radius (m)
 N_s = 1.0                      # Steer gear ratio
 N_r1 = 1.0                     # Drive gear ratio (1st stage)
 N_r2 = 1.0                     # Drive gear ratio (2nd stage)
