@@ -110,6 +110,7 @@ class Vehicle:
         control_hz=CONTROL_FREQ,
         control_mode="speed",
         motor_map=HEX_MOTOR_MAP,
+        encoder_offsets=ENCODER_MAGNET_OFFSETS,
     ):
         self.max_vel = np.array(max_vel)
         self.max_accel = np.array(max_accel)
@@ -124,6 +125,7 @@ class Vehicle:
             control_hz=control_hz,
             control_mode=control_mode,
             motor_map=motor_map,
+            encoder_offsets=encoder_offsets,
         )
 
         # # CAN bus update frequency
