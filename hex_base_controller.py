@@ -17,7 +17,8 @@ from enum import Enum
 import numpy as np
 # import phoenix6
 # from phoenix6 import configs, controls, hardware
-from hex_vehicle import PublicAPI as HexVehicleAPI
+from hex_device import HexDeviceApi
+from hex_device.motor_base import CommandType as HexCommandType
 from ruckig import InputParameter, OutputParameter, Result, Ruckig, ControlInterface
 from threadpoolctl import threadpool_limits
 from constants import h_x, h_y, ENCODER_MAGNET_OFFSETS
@@ -52,18 +53,29 @@ class HexMotorInterface:
         motor_map=HEX_MOTOR_MAP,
         encoder_offsets=ENCODER_MAGNET_OFFSETS,
     ):
-        self.__vehicle_api = HexVehicleAPI(
+        self.__vehicle_api = HexDeviceApi(
             ws_url=ws_url,
             control_hz=control_hz,
-            control_mode=control_mode,
         )
-        self.__vehicle = self.__vehicle_api.vehicle
+        # init hex vehicle
+        self.__vehicle = None
+        try:
+            print('Waiting for vehicle...')
+            while self.__vehicle is None:
+                self.__vehicle = self.__vehicle_api.find_device_by_robot_type(2)
+                time.sleep(0.001)
+            print('Vehicle found')
+        except KeyboardInterrupt:
+            print('Keyboard interrupt, exiting...')
+            exit(1)
+        self.__vehicle.start()
+
         self.__motor_map = motor_map
         self.__encoder_offsets = np.zeros(8)
         self.__encoder_offsets[::2] = np.array(encoder_offsets)
 
     def get_positions(self):
-        motor_positions = np.array(self.__vehicle.get_motor_position())
+        motor_positions = np.array(self.__vehicle.get_motor_positions())
         motor_positions *= self.__motor_map['reverse_factor']
         tidy_positions = np.zeros_like(motor_positions)
         tidy_positions[self.__motor_map['tidy_idx']] = motor_positions[
@@ -72,7 +84,7 @@ class HexMotorInterface:
         return tidy_positions
 
     def get_velocities(self):
-        motor_velocities = np.array(self.__vehicle.get_motor_velocity())
+        motor_velocities = np.array(self.__vehicle.get_motor_velocities())
         motor_velocities *= self.__motor_map['reverse_factor']
         tidy_velocities = np.zeros_like(motor_velocities)
         tidy_velocities[self.__motor_map['tidy_idx']] = motor_velocities[
@@ -85,11 +97,14 @@ class HexMotorInterface:
         motor_velocities[self.__motor_map['motor_idx']] = tidy_velocities[
             self.__motor_map['tidy_idx']]
         motor_velocities *= self.__motor_map['reverse_factor']
-        self.__vehicle.set_motor_velocity(motor_velocities.tolist())
+        self.__vehicle.motor_command(HexCommandType.SPEED, motor_velocities.tolist())
 
     def set_neutral(self):
         self.__vehicle.disable()
 
+    def stop(self):
+        self.__vehicle.stop()
+        time.sleep(0.5)
 
 class CommandType(Enum):
     POSITION = 'position'
@@ -236,6 +251,8 @@ class Vehicle:
         self.control_loop_thread.start()
 
     def stop_control(self):
+        # safe stop hex vehicle
+        self.__hex_motor_interface.stop()
         self.control_loop_running = False
         self.control_loop_thread.join()
         self.control_loop_thread = None
