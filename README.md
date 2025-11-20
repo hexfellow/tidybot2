@@ -14,16 +14,9 @@ This repository adapts the [**Tidybot2**](https://github.com/jimmyyhwu/tidybot2)
 
 To enable communication with the **MaverX4** base, install the required dependency:
 
-1. [**hex_vehicle_python_lib**](https://github.com/hexfellow/hex_vehicle_python_lib.git)
-
-   ```bash
-   git clone https://github.com/hexfellow/hex_vehicle_python_lib.git
-   cd hex_vehicle_python_lib
-   git submodule update --init
-   python3 -m pip install .
-   ```
-
-   This library provides the low-level interface for **MaverX4** control.
+```
+pip install hex_device
+```
 
 ## ⚙️ Configuration
 
