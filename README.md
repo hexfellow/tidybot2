@@ -32,6 +32,60 @@ If you have any questions or feedback, feel free to reach out:
 
 For business or partnership inquiries, please contact **Haoxing Guo** at [haoxing.guo@hexfellow.com](mailto:haoxing.guo@hexfellow.com).
 
+# TidyBot2‑Compatible Control Interface for MaverL4
+
+This repository is configured for **MaverX4** by default. To use **MaverL4** instead, you need to modify the following configuration files.
+
+## ⚙️ Configuration Changes
+
+The device configuration files for **MaverL4** are located in the same positions as **MaverX4**, but with different parameter values.
+
+### 1. Modify `hex_base_controller.py`
+
+#### Check caster offset configuration (lines 35-37)
+
+Verify that the caster offset parameters on lines 35-37 match your **MaverL4** hardware:
+
+```python
+b_x = 0.020                    # Caster offset (m)
+b_y = 0.0                      # Lateral caster offset (m)
+r = 0.0625                     # Wheel radius (m)
+```
+
+Adjust these values according to your **MaverL4** physical parameters if needed.
+
+#### Change device type matching (line 65)
+
+On line 65, change:
+
+```python
+self.__vehicle = self.__vehicle_api.find_device_by_robot_type(2)
+```
+
+to:
+
+```python
+self.__vehicle = self.__vehicle_api.find_device_by_robot_type(20)
+```
+
+This will match the **MaverL4** device type (robot_type=20).
+
+### 2. Modify `constants.py`
+
+Check and update the `h_x` and `h_y` configuration around line 6:
+
+Current default configuration (MaverX4):
+```python
+h_x, h_y = 0.140000 * np.array([1.0, 1.0, -1.0, -1.0]), 0.212000 * np.array([-1.0, 1.0, 1.0, -1.0])  # Hexfellow maverX4
+```
+
+MaverL4 configuration (currently commented):
+```python
+# h_x, h_y = 0.160000 * np.array([1.0, 1.0, -1.0, -1.0]), 0.180000 * np.array([-1.0, 1.0, 1.0, -1.0])  # Hexfellow maverL4 default
+```
+
+Comment out the MaverX4 configuration and uncomment the MaverL4 configuration, or directly replace it with the MaverL4 values.
+
 ---
 
 # tidybot2
