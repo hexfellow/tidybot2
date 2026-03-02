@@ -46,26 +46,6 @@ if __name__ == "__main__":
 
     try:
         while True:
-
-            # # Check if target is reached
-            # if not target_reached:
-            #     position_error = np.linalg.norm(vehicle.x[:2] - target_position[:2])
-            #     angle_error = abs(vehicle.x[2] - target_position[2])
-            #     velocity_norm = np.linalg.norm(vehicle.dx)
-
-            #     if (position_error < position_threshold and
-            #         angle_error < angle_threshold and
-            #         velocity_norm < velocity_threshold):
-            #         target_reached = True
-            #         # Switch to velocity control mode and send zero velocity to stop
-            #         vehicle.set_target_velocity(np.array([0.0, 0.0, 0.0]))
-            #         print(f"Target reached! Position error: {position_error*1000:.1f}mm, "
-            #               f"Angle error: {np.degrees(angle_error):.1f}deg")
-            #     else:
-            #         vehicle.set_target_position(target_position)
-            #         print(f"Moving to target... Position error: {position_error*1000:.1f}mm, "
-            #               f"Velocity: {velocity_norm:.3f}m/s")
-
             # Check if target is reached
             if not target_reached:
                 position_error = np.linalg.norm(vehicle.x[:2] -
@@ -97,5 +77,5 @@ if __name__ == "__main__":
         print("Exiting...")
         vehicle.stop_control()
 
-        # if SAVE_TRAJ:
-        #     traj_file.close()
+        if SAVE_TRAJ:
+            traj_file.close()

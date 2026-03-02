@@ -127,7 +127,7 @@ class Vehicle:
         motor_map=HEX_MOTOR_MAP,
         encoder_offsets=ENCODER_MAGNET_OFFSETS,
         close_accel=(0.15, 0.15, 0.5),
-        error_threshold=(0.04, 0.1),
+        error_threshold=(0.1, 0.2),
     ):
         self.max_vel = np.array(max_vel)
         self.max_accel = np.array(max_accel)
