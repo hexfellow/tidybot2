@@ -28,7 +28,6 @@ If you have any questions or feedback, feel free to reach out:
 
 * [**IBN\_Blank**](https://github.com/IBNBlank) -- [joray.dong@hexfellow.com](mailto:joray.dong@hexfellow.com)
 * [**Jecjune**](https://github.com/Jecjune) -- [zejun.chen@hexfellow.com](mailto:zejun.chen@hexfellow.com)
-* [**aalicecc**](https://github.com/aalicecc)
 
 For business or partnership inquiries, please contact **Haoxing Guo** at [haoxing.guo@hexfellow.com](mailto:haoxing.guo@hexfellow.com).
 

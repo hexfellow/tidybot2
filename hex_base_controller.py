@@ -126,9 +126,13 @@ class Vehicle:
         control_mode="speed",
         motor_map=HEX_MOTOR_MAP,
         encoder_offsets=ENCODER_MAGNET_OFFSETS,
+        close_accel=(0.15, 0.15, 0.5),
+        error_threshold=(0.1, 0.2),
     ):
         self.max_vel = np.array(max_vel)
         self.max_accel = np.array(max_accel)
+        self.close_accel = np.array(close_accel)
+        self.error_threshold = np.array(error_threshold)
 
         # Use PID file to enforce single instance
         create_pid_file('tidybot2-base-controller')
@@ -298,11 +302,18 @@ class Vehicle:
                 if command['type'] == CommandType.VELOCITY:
                     if command['frame'] == FrameType.LOCAL:
                         target = R.T @ target
+                    self.otg_inp.max_acceleration = self.max_accel
                     self.otg_inp.control_interface = ControlInterface.Velocity
                     self.otg_inp.target_velocity = np.clip(target, -self.max_vel, self.max_vel)
 
                 # Position command
                 elif command['type'] == CommandType.POSITION:
+                    pos_error = np.linalg.norm(self.x[:2] - target[:2])
+                    angle_error = abs(self.x[2] - target[2])
+                    if pos_error < self.error_threshold[0] and angle_error < self.error_threshold[1]:
+                        self.otg_inp.max_acceleration = self.close_accel
+                    else:
+                        self.otg_inp.max_acceleration = self.max_accel
                     self.otg_inp.control_interface = ControlInterface.Position
                     self.otg_inp.target_position = target
                     self.otg_inp.target_velocity = np.zeros_like(self.dx)
