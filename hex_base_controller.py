@@ -84,7 +84,7 @@ class HexMotorInterface:
         return tidy_positions
 
     def get_velocities(self):
-        motor_velocities = np.array(self.__vehicle.get_motor_velocities())
+        motor_velocities = np.array(self.__vehicle.get_motor_velocities(pop = False))
         motor_velocities *= self.__motor_map['reverse_factor']
         tidy_velocities = np.zeros_like(motor_velocities)
         tidy_velocities[self.__motor_map['tidy_idx']] = motor_velocities[
